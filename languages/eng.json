@@ -1,0 +1,60 @@
+{
+    "1":"Welcome!",
+    "2":"Use .lang # to change language: ",
+    "3":"My Adventure",
+    "4":"All available commands:",
+    "5":"**.lang #** - will help you to change language \n**.create_hero #** - creating a Hero with # name\n**.kick_hero #** - kick hero with # name out of party\n**.stats** or **.full_stats**- your heroes stats\n**.color** - to see all the colors\n**.whereami** - to found out your location\n**.go_to** - change location",
+    "6":"Language changed successfully!",
+    "7":"First of all you need to create a Hero\nUse **.create_hero #** if you are ready \n**#** is for the name\nFor example *.create_hero Sir_Pussy*\nKeep in mind you should create a unique Hero and you can't use symbols like . @ # /",
+    "8":"What a lovely name - ",
+    "9":"Wanna know stats of your Hero? Type **.full_stats **",
+    "10":"Done!",
+    "11":"Stats:",
+    "12":"Nothing",
+    "13":{"exp": "Experience",
+        "lvl": "Level",
+        "name": "Name",
+        "dmg": "Damage",
+        "arm": "Armor",
+        "eva": "Evasion",
+        "hp": "Health",
+        "mana": "Mana",
+        "spells": "Spells",
+        "har": "Characteristics",
+        "slots": "Slots",
+        "backpack": "Backpack",
+        "race": "Race",
+        "gender": "Gender"},
+    "14":"Now your color is ",
+    "15":"Your color is already ",
+    "16":"Use .color @ to change color:",
+    "17":"Wrong argument...",
+    "18":"You **already** using **english** language",
+    "19":"But you **dont** have any Heroes..",
+    "20":"You already have **enough** Heroes!",
+    "21":"This is **forbidden** name for Hero",
+    "22":"Such Hero is already **exist**",
+    "23":{
+        "1":"City Streets",
+        "2":"Sabertusk Tavern"
+            },
+    "24":"Your Hero left party",
+    "25":"There is **no Heroes** in party to kick",
+    "26":"Places to go:",
+    "27":"New location: ",
+    "28":"Your location is: ",
+    "29":"Welcome back!",
+    "30":"You **already** there",
+    "31":""
+
+
+
+
+
+
+
+
+
+
+
+}
