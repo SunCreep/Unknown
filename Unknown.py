@@ -103,10 +103,10 @@ if len(os.listdir(dir_list[1]))>0:
 {'id':{'id':'','lang':'',"hero_id":{"hero_id":'', "player_id":''}}}
 
 #создает файлы языков для перевода
-languges_help = []
+languges_help = {}
 languges_list = []
-for language in os.listdir(dir_list[2]):
-    languges_help.append(language.replace('.json',''))
+for x,language in enumerate(os.listdir(dir_list[2])):
+    languges_help[x+1] = (language.replace('.json',''))
     with open(dir_list[2]+language, encoding='utf8') as json_file:
         lang_dic = json.load(json_file)
         languges_list.append(lang_dic)
@@ -147,6 +147,7 @@ async def on_raw_reaction_add(payload):
             new=False
             player = players_data[user.id]
             player.channel = channel.id
+            player.lang = lang
             loc_channel = discord.utils.get(guild.channels, name=locsChannels[player.location])
             await loc_channel.set_permissions(user, view_channel=True, read_messages=True, send_messages=True)
             loc_voice_channel = discord.utils.get(guild.channels, name=locsVoiceChannels[player.location])
@@ -179,25 +180,30 @@ async def on_member_remove(member):
     await player_saver(member.id, player)
 
 #Команда показывающая и меняющая доступные языки перевода
-@client.command(aliases=['lang'])
-async def language(ctx, args=None):
+@client.command()
+async def lang(ctx, args=None):
     player = players_data[ctx.author.id]
     language = languges_list[player.lang]
     channel = client.get_channel(player.channel)
+    if args != None and args.isdigit():
+        if 1 <= int(args) <= len(languges_help):
+            args=languges_help[int(args)]
     if args==None:
-        em = discord.Embed(title = language["2"], description = '\n'.join(languges_help), color=ctx.author.color)
+        desc=''
+        for k,v in languges_help.items():
+            desc = desc+"**"+str(k)+"**"+": "+v+"\n"
+        em = discord.Embed(title = language["2"], description = desc, color=ctx.author.color)
         await ctx.send(embed = em)
     else:
-        if (args in languges_help) and (player.lang != languges_help.index(args)):
-            player.lang = languges_help.index(args) #Замена переменной языка игрока
+        languges_help_list = list(languges_help.values())
+        if (args in languges_help_list) and (player.lang != languges_help_list.index(args)):
+            player.lang = languges_help_list.index(args) #Замена переменной языка игрока
             await player_saver(player.id, player)
             language = languges_list[player.lang]
             await channel.send(language["6"])
             await channel.edit(name=language["3"])
-        elif args not in languges_help:
+        elif args not in languges_help_list:
             await channel.send(language["17"])
-            em = discord.Embed(title = language["2"], description = '\n'.join(languges_help), color=ctx.author.color)
-            await ctx.send(embed = em)
         else:
             await channel.send(language["18"])
 
@@ -278,7 +284,7 @@ async def stats(ctx):
 
 #выводит статы всех героев
 @client.command()
-async def full_stats(ctx):
+async def fstats(ctx):
     player = players_data[ctx.author.id]
     language = languges_list[player.lang]
     channel = client.get_channel(player.channel)
@@ -297,22 +303,22 @@ async def full_stats(ctx):
         await channel.send(language["19"])
 
 #список всех цветов в формате меншена
-colors_mentions = [
-'<@&884490761188573184>',
-'<@&884477545507078195>',
-'<@&884484307731775559>',
-'<@&884484631842394133>',
-'<@&884488750506332242>',
-'<@&884490418060926978>',
-'<@&884485089688424448>',
-'<@&884487789612257321>',
-'<@&884490168688594946>',
-'<@&884490317091463188>',
-'<@&884488243456933899>',
-'<@&884488302382678016>',
-'<@&884489474116038677>',
-'<@&884489408403877899>',
-'<@&884488845700251690>']
+colors_mentions = {
+'1':'<@&884490761188573184>',
+'2':'<@&884477545507078195>',
+'3':'<@&884484307731775559>',
+"4":'<@&884484631842394133>',
+"5":'<@&884488750506332242>',
+"6":'<@&884490418060926978>',
+"7":'<@&884485089688424448>',
+"8":'<@&884487789612257321>',
+"9":'<@&884490168688594946>',
+"10":'<@&884490317091463188>',
+"11":'<@&884488243456933899>',
+"12":'<@&884488302382678016>',
+"13":'<@&884489474116038677>',
+"14":'<@&884489408403877899>',
+"15":'<@&884488845700251690>'}
 
 #функция вывода и смены цветов, показывает какие они есть на сервере
 @client.command()
@@ -321,25 +327,30 @@ async def color(ctx, args=None):
     language = languges_list[player.lang]
     channel = client.get_channel(player.channel)
     guild = client.get_guild(882580817983963197)
+    if args != None and args.isdigit() == True:
+        if 1<=int(args)<=len(colors_mentions):
+            args = colors_mentions[args]
     if args == None:
-        desc = '\n'.join(colors_mentions)
+        desc = ''
+        for k,v in colors_mentions.items():
+            desc = desc+"**"+k+"**"+": "+v+"\n"
         em = discord.Embed(title = language["16"], description = desc, color=ctx.author.color)
         await channel.send(embed = em)
     else:
-        if (ctx.channel == channel) and (args in colors_mentions):
+        if (ctx.channel == channel) and (args in colors_mentions.values()):
             role_id = args.replace('<@&','')
             role_id = role_id.replace('>','')
             role = discord.utils.get(guild.roles, id=int(role_id))
             roles = ''.join(str(ctx.author.roles))
             if role_id not in roles:
                 for x in ctx.author.roles:
-                    if ('<@&'+str(x.id)+'>') in colors_mentions:
+                    if ('<@&'+str(x.id)+'>') in colors_mentions.values():
                         await ctx.message.author.remove_roles(x)
                 await ctx.message.author.add_roles(role)
                 await channel.send(language["14"]+args)
             else:
                 await channel.send(language["15"]+args)
-        elif args not in colors_mentions:
+        elif args not in colors_mentions.values():
             await channel.send(language["17"])
 
 locsVoiceChannels = {
@@ -398,6 +409,12 @@ async def whereami(ctx):
 
 #добавить систему сбора пати и пати чатов
 #добавить установку характеристик, выбор старотового инвентаря, рассы, пола для героев
+#функцию удаления каналов по времени (удаляется канал игрока, если в него не писали неделю)
+#функция кика игроков (кикнут если не играл 3 дня)
+
+#нужны юнит тесты
+
+#баги: 
 
 #Нужно добавить адекватный логгинг всех действий!
 #использовать для сценария известные днд сессии

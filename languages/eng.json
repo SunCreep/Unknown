@@ -3,7 +3,7 @@
     "2":"Use .lang # to change language: ",
     "3":"My Adventure",
     "4":"All available commands:",
-    "5":"**.lang #** - will help you to change language \n**.create_hero #** - creating a Hero with # name\n**.kick_hero #** - kick hero with # name out of party\n**.stats** or **.full_stats**- your heroes stats\n**.color** - to see all the colors\n**.whereami** - to found out your location\n**.go_to** - change location",
+    "5":"**.lang #** - will help you to change language \n**.create_hero #** - creating a Hero with # name\n**.kick_hero #** - kick hero with # name out of party\n**.stats** or **.fstats**- your heroes stats\n**.color** - to see all the colors\n**.whereami** - to found out your location\n**.go_to** - change location",
     "6":"Language changed successfully!",
     "7":"First of all you need to create a Hero\nUse **.create_hero #** if you are ready \n**#** is for the name\nFor example *.create_hero Sir_Pussy*\nKeep in mind you should create a unique Hero and you can't use symbols like . @ # /",
     "8":"What a lovely name - ",
